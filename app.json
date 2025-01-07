@@ -3,5 +3,18 @@
   "slug": "NomNom",
   "plugins": [
     "expo-router"
-  ]
+  ],
+  "extra": {
+    "router": {
+      "origin": false
+    },
+    "eas": {
+      "projectId": "e06a8d7f-a3fb-43d5-872a-9751c12923fe"
+    }
+  },
+  "expo": {
+    "android": {
+      "package": "com.ahmedsami12235.NomNom"
+    }
+  }
 }

@@ -1,20 +1,36 @@
-# Reanimated example
+# Recipes App
 
-<p>
-  <!-- iOS -->
-  <img alt="Supports Expo iOS" longdesc="Supports Expo iOS" src="https://img.shields.io/badge/iOS-4630EB.svg?style=flat-square&logo=APPLE&labelColor=999999&logoColor=fff" />
-  <!-- Android -->
-  <img alt="Supports Expo Android" longdesc="Supports Expo Android" src="https://img.shields.io/badge/Android-4630EB.svg?style=flat-square&logo=ANDROID&labelColor=A4C639&logoColor=fff" />
-  <!-- Web -->
-</p>
+A React Native application that allows users to browse recipes by categories and view detailed information about meals.
 
-## 🚀 How to use
+## Features
 
-> `npx create-expo my-app --example with-reanimated`
+- Browse recipes by categories.
+- View recipe details, including ingredients and images.
+- Search for recipes.
+- Caches recipe images locally for offline viewing.
 
-- Run `yarn` or `npm install`
-- Run `yarn start` or `npm run start` to try it out.
+## Requirements
 
-## 📝 Notes
+- Node.js (v14 or higher)
+- React Native CLI
+- Android Studio or Xcode (for building and running the app on a physical device or emulator)
 
-- [`react-native-reanimated` docs](https://docs.swmansion.com/react-native-reanimated/)
+## Installation
+
+1. Clone this repository
+
+2. Install all dependencies using yarn or npm:
+
+```bash
+   yarn
+   or
+   npm install
+```
+
+3. open it in your mobile if you have expo go application
+
+```bash
+   yarn start
+   or
+   npm run start
+```
