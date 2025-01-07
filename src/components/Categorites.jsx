@@ -12,11 +12,12 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import Animated, { FadeInDown } from "react-native-reanimated";
+import CachedImage from "../helpers/image";
 
 export default function Categories({
   categories,
   activeCategory,
-  setActiveCategory,
+  handleChangeCategory,
 }) {
   return (
     <Animated.View entering={FadeInDown.duration(500).springify()}>
@@ -31,19 +32,26 @@ export default function Categories({
             let buttonStyle = isActive
               ? styles.activeImageContainer
               : styles.imageContainer;
+            let textStyle = isActive
+              ? styles.activeCategoryName
+              : styles.categoryName;
             return (
               <TouchableOpacity
                 key={index}
                 style={styles.categoryButton}
-                onPress={() => setActiveCategory(cat.strCategory)}
+                onPress={() => handleChangeCategory(cat.strCategory)}
               >
                 <View style={buttonStyle}>
-                  <Image
+                  {/* <Image
+                    source={{ uri: cat.strCategoryThumb }}
+                    style={styles.image}
+                  /> */}
+                  <CachedImage
                     source={{ uri: cat.strCategoryThumb }}
                     style={styles.image}
                   />
                 </View>
-                <Text style={styles.categoryName}>{cat.strCategory}</Text>
+                <Text style={textStyle}>{cat.strCategory}</Text>
               </TouchableOpacity>
             );
           })}
@@ -83,5 +91,11 @@ const styles = StyleSheet.create({
     marginTop: 8,
     fontSize: hp(1.6),
     color: "#4B5563",
+  },
+
+  activeCategoryName: {
+    marginTop: 8,
+    fontSize: hp(1.6),
+    color: "#F50B0B",
   },
 });

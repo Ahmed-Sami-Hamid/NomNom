@@ -20,14 +20,24 @@ import { MagnifyingGlassIcon } from "react-native-heroicons/outline";
 import Categories from "../components/Categorites";
 
 import axios from "axios";
+import Recipes from "../components/Recipes";
 
 export default function HomeScreen() {
-  const [activeCategory, setActiveCategory] = useState("");
+  const [activeCategory, setActiveCategory] = useState("Beef");
 
   const [categories, setCategories] = useState([]);
+  const [meals, setMeals] = useState([]);
   useEffect(() => {
     getCategories();
+    getRecipes();
   }, []);
+
+  const handleChangeCategory = (category) => {
+    getRecipes(category);
+    setActiveCategory(category);
+    setMeals([]);
+  };
+
   const getCategories = async () => {
     try {
       const response = await axios.get(
@@ -35,6 +45,19 @@ export default function HomeScreen() {
       );
       if (response && response.data) {
         setCategories(response.data.categories);
+      }
+    } catch (err) {
+      console.log("error: ", err.message);
+    }
+  };
+
+  const getRecipes = async (category = "Beef") => {
+    try {
+      const response = await axios.get(
+        `https://themealdb.com/api/json/v1/1/filter.php?c=${category}`
+      );
+      if (response && response.data) {
+        setMeals(response.data.meals);
       }
     } catch (err) {
       console.log("error: ", err.message);
@@ -81,14 +104,19 @@ export default function HomeScreen() {
         </View>
 
         {/* Categories */}
-        <View style={styles.categoriesContainer}>
+        <View style={styles.wrapper}>
           {categories.length > 0 && (
             <Categories
               categories={categories}
               activeCategory={activeCategory}
-              setActiveCategory={setActiveCategory}
+              handleChangeCategory={handleChangeCategory}
             />
           )}
+        </View>
+
+        {/* Recipes */}
+        <View>
+          <Recipes meals={meals} categories={categories} />
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -100,6 +128,9 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "white",
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+  },
+  wrapper: {
+    marginBottom: 26,
   },
   scrollViewContent: {
     paddingBottom: 50,
