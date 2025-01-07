@@ -29,6 +29,7 @@ import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import Loading from "../components/Loading";
 import YoutubeIframe from "react-native-youtube-iframe";
+import Animated, { FadeInDown, FadeIn } from "react-native-reanimated";
 
 const RecipeDetailsScreen = (props) => {
   const item = props.route.params;
@@ -74,6 +75,7 @@ const RecipeDetailsScreen = (props) => {
         <View style={styles.header}>
           <CachedImage
             uri={item.strMealThumb}
+            sharedTransitionTag={item.strMeal}
             style={{
               width: wp(94),
               height: hp(50),
@@ -85,7 +87,10 @@ const RecipeDetailsScreen = (props) => {
         </View>
 
         {/* Back bottons */}
-        <View style={styles.backButtons}>
+        <Animated.View
+          entering={FadeIn.delay(200).duration(1000)}
+          style={styles.backButtons}
+        >
           <TouchableOpacity
             onPress={() => navigation.goBack()}
             style={styles.button}
@@ -102,7 +107,7 @@ const RecipeDetailsScreen = (props) => {
               color={isLiked ? "#F50B0B" : "grey"}
             />
           </TouchableOpacity>
-        </View>
+        </Animated.View>
 
         {/* Recipe Details */}
         {loading ? (
@@ -110,13 +115,22 @@ const RecipeDetailsScreen = (props) => {
         ) : (
           <View style={styles.recipeDetails}>
             <Text style={styles.recipeName}>{meals?.strMeal}</Text>
-            <View style={styles.typeWrapper}>
+            <Animated.View
+              entering={FadeInDown.duration(600).springify().damping(12)}
+              style={styles.typeWrapper}
+            >
               <Text style={styles.recipeCategory}>{meals?.strCategory}</Text>
               <Text style={styles.recipeArea}>{meals?.strArea}</Text>
-            </View>
+            </Animated.View>
 
             {/* Misc */}
-            <View style={styles.miscWrapper}>
+            <Animated.View
+              entering={FadeInDown.delay(100)
+                .duration(600)
+                .springify()
+                .damping(11)}
+              style={styles.miscWrapper}
+            >
               {/* Time */}
               <View style={styles.miscInside}>
                 <View style={styles.iconWrapper}>
@@ -164,10 +178,16 @@ const RecipeDetailsScreen = (props) => {
                   <Text style={styles.minutesText}>Easy</Text>
                 </View>
               </View>
-            </View>
+            </Animated.View>
 
             {/* Ingredients */}
-            <View style={styles.ingredientsContainer}>
+            <Animated.View
+              entering={FadeInDown.delay(100)
+                .duration(600)
+                .springify()
+                .damping(12)}
+              style={styles.ingredientsContainer}
+            >
               <Text style={styles.title}>Ingredients</Text>
               <View style={styles.ingredientsList}>
                 {ingredientsIndexes(meals).map((index) => {
@@ -186,19 +206,30 @@ const RecipeDetailsScreen = (props) => {
                   );
                 })}
               </View>
-            </View>
+            </Animated.View>
 
             {/* Instructions */}
-            <View style={styles.ingredientsContainer}>
+            <Animated.View
+              entering={FadeInDown.delay(100)
+                .duration(600)
+                .springify()
+                .damping(12)}
+              style={styles.ingredientsContainer}
+            >
               <Text style={styles.title}>Instructions</Text>
               <Text style={styles.instructionsText}>
                 {meals?.strInstructions}
               </Text>
-            </View>
+            </Animated.View>
 
             {/* Video */}
             {meals?.strYoutube && (
-              <View>
+              <Animated.View
+                entering={FadeInDown.delay(100)
+                  .duration(600)
+                  .springify()
+                  .damping(12)}
+              >
                 <Text style={styles.title}>Video</Text>
                 <View>
                   <YoutubeIframe
@@ -207,7 +238,7 @@ const RecipeDetailsScreen = (props) => {
                     videoId={meals?.strYoutube.split("=")[1]}
                   />
                 </View>
-              </View>
+              </Animated.View>
             )}
           </View>
         )}

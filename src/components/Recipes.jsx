@@ -78,6 +78,7 @@ const RecipeCard = ({ item, index, navigation }) => {
             source={{ uri: item.strMealThumb }}
             // style={[styles.image, { height: isEven ? hp(25) : hp(35) }]}
             style={styles.image}
+            sharedTransitionTag={item.strMeal}
           />
 
           <Text style={styles.cardText}>

@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View, Image } from "react-native";
 import Animated from "react-native-reanimated";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Loading from "../components/Loading";
 
-export default function CachedImage(props) {
+export default function CachedImage({ uri, style, ...restProps }) {
   const [cachedSource, setCachedSource] = useState(null);
-  const { uri } = props;
+
   useEffect(() => {
+    let isMounted = true;
     const getCachedImage = async () => {
       try {
         const cachedImageData = await AsyncStorage.getItem(uri);
-        if (cachedImageData) {
+        if (cachedImageData && isMounted) {
           setCachedSource({ uri: cachedImageData });
         } else {
           const response = await fetch(uri);
@@ -23,16 +24,19 @@ export default function CachedImage(props) {
             };
           });
           await AsyncStorage.setItem(uri, base64Data);
-          setCachedSource({ uri: base64Data });
+          if (isMounted) setCachedSource({ uri: base64Data });
         }
       } catch (error) {
         console.error("Error caching image: ", error);
-        setCachedSource({ uri });
+        if (isMounted) setCachedSource({ uri });
       }
     };
     getCachedImage();
-  }, []);
-  return <Animated.Image source={cachedSource} {...props} />;
-}
 
-const styles = StyleSheet.create({});
+    return () => {
+      isMounted = false;
+    };
+  }, [uri]);
+
+  return <Animated.Image source={cachedSource} style={style} {...restProps} />;
+}
