@@ -15,8 +15,11 @@ import MasonryList from "@react-native-seoul/masonry-list";
 import Animated, { FadeInDown } from "react-native-reanimated";
 import Loading from "./Loading";
 import CachedImage from "../helpers/image";
+import { useNavigation } from "@react-navigation/native";
 
 export default function Recipes({ categories, meals }) {
+  const navigation = useNavigation();
+
   return (
     <View style={styles.container}>
       <Text style={styles.headerText}>Recipes</Text>
@@ -32,7 +35,7 @@ export default function Recipes({ categories, meals }) {
             numColumns={2}
             showsVerticalScrollIndicator={false}
             renderItem={({ item, index }) => (
-              <RecipeCard item={item} index={index} />
+              <RecipeCard item={item} index={index} navigation={navigation} />
             )}
             onEndReachedThreshold={0.1}
             ListEmptyComponent={() => (
@@ -53,7 +56,7 @@ export default function Recipes({ categories, meals }) {
   );
 }
 
-const RecipeCard = ({ item, index }) => {
+const RecipeCard = ({ item, index, navigation }) => {
   const isEven = index % 2 === 0;
   return (
     <Animated.View
@@ -64,6 +67,7 @@ const RecipeCard = ({ item, index }) => {
     >
       <View style={styles.cardWrapper}>
         <Pressable
+          onPress={() => navigation.navigate("RecipeDetails", { ...item })}
           style={[
             styles.card,
             { paddingLeft: isEven ? 0 : 8, paddingRight: isEven ? 8 : 0 },
