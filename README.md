@@ -1,4 +1,4 @@
-# Recipes App
+# Nom Nom App
 
 A React Native application that allows users to browse recipes by categories and view detailed information about meals.
 
