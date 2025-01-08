@@ -27,7 +27,7 @@ export default function Recipes({ categories, meals }) {
         {categories?.length === 0 || meals?.length === 0 ? (
           <Loading size="large" />
         ) : (
-          <FlatList
+          <MasonryList
             data={meals || []}
             keyExtractor={(item) =>
               item.idMeal?.toString() || Math.random().toString()
@@ -68,23 +68,20 @@ const RecipeCard = ({ item, index, navigation }) => {
       <View style={styles.cardWrapper}>
         <Pressable
           onPress={() => navigation.navigate("RecipeDetails", { ...item })}
-          style={[
-            styles.card,
-            { paddingLeft: isEven ? 0 : 8, paddingRight: isEven ? 8 : 0 },
-          ]}
+          style={styles.card}
         >
           {/* <Image source={{ uri: item.strMealThumb }} style={styles.image} /> */}
           <CachedImage
-            source={{ uri: item.strMealThumb }}
+            source={{ uri: item?.strMealThumb }}
             // style={[styles.image, { height: isEven ? hp(25) : hp(35) }]}
             style={styles.image}
-            sharedTransitionTag={item.strMeal}
+            sharedTransitionTag={item?.strMeal}
           />
 
           <Text style={styles.cardText}>
             {item.strMeal.length > 20
-              ? `${item.strMeal.slice(0, 20)}...`
-              : item.strMeal}
+              ? `${item?.strMeal.slice(0, 20)}...`
+              : item?.strMeal}
           </Text>
         </Pressable>
       </View>
@@ -109,7 +106,6 @@ const styles = StyleSheet.create({
   cardWrapper: {
     marginBottom: hp(2),
     flex: 1,
-    alignItems: "center",
   },
   card: {
     width: "100%",
@@ -119,13 +115,13 @@ const styles = StyleSheet.create({
     width: wp(40),
     borderRadius: 12,
     backgroundColor: "rgba(0, 0, 0, 0.05)",
-    height: hp(35),
+    height: hp(25),
   },
   cardText: {
     fontSize: hp(1.5),
     fontWeight: "600",
     color: "#4B5563",
-    marginLeft: 8,
     marginTop: 4,
+    textAlign: "center",
   },
 });

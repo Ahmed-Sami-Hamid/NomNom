@@ -39,7 +39,7 @@ export default function Categories({
               <TouchableOpacity
                 key={index}
                 style={styles.categoryButton}
-                onPress={() => handleChangeCategory(cat.strCategory)}
+                onPress={() => handleChangeCategory(cat?.strCategory)}
               >
                 <View style={buttonStyle}>
                   {/* <Image
@@ -47,11 +47,11 @@ export default function Categories({
                     style={styles.image}
                   /> */}
                   <CachedImage
-                    source={{ uri: cat.strCategoryThumb }}
+                    source={{ uri: cat?.strCategoryThumb }}
                     style={styles.image}
                   />
                 </View>
-                <Text style={textStyle}>{cat.strCategory}</Text>
+                <Text style={textStyle}>{cat?.strCategory}</Text>
               </TouchableOpacity>
             );
           })}

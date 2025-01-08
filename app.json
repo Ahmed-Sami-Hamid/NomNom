@@ -1,9 +1,7 @@
 {
   "name": "NomNom",
   "slug": "NomNom",
-  "plugins": [
-    "expo-router"
-  ],
+  "plugins": ["expo-router"],
   "extra": {
     "router": {
       "origin": false
@@ -15,6 +13,11 @@
   "expo": {
     "android": {
       "package": "com.ahmedsami12235.NomNom"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "8a43797a-9f58-431e-bd45-4a7be2282fcd"
+      }
     }
   }
 }

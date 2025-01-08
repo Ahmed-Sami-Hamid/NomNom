@@ -33,6 +33,10 @@ export default function HomeScreen() {
   }, []);
 
   const handleChangeCategory = (category) => {
+    if (!category) {
+      console.error("Invalid category selected.");
+      return;
+    }
     getRecipes(category);
     setActiveCategory(category);
     setMeals([]);
@@ -52,6 +56,10 @@ export default function HomeScreen() {
   };
 
   const getRecipes = async (category = "Beef") => {
+    if (!category) {
+      console.error("Category is null or undefined.");
+      return;
+    }
     try {
       const response = await axios.get(
         `https://themealdb.com/api/json/v1/1/filter.php?c=${category}`

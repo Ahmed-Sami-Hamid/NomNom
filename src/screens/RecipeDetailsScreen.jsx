@@ -69,181 +69,181 @@ const RecipeDetailsScreen = (props) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView>
-        <StatusBar style="light" />
-        <View style={styles.header}>
-          <CachedImage
-            uri={item.strMealThumb}
-            sharedTransitionTag={item.strMeal}
-            style={{
-              width: wp(94),
-              height: hp(50),
-              borderRadius: 53,
-              borderBottomLeftRadius: 40,
-              borderBottomRightRadius: 40,
-            }}
-          />
-        </View>
+    <ScrollView>
+      <StatusBar style="light" />
+      <View style={styles.header}>
+        <CachedImage
+          uri={item?.strMealThumb}
+          sharedTransitionTag={item?.strMeal}
+          style={{
+            width: wp(100),
+            height: hp(50),
+            borderRadius: 53,
+            borderBottomLeftRadius: 50,
+            borderBottomRightRadius: 50,
+            borderTopLeftRadius: 20,
+            borderTopRightRadius: 20,
+          }}
+        />
+      </View>
 
-        {/* Back bottons */}
-        <Animated.View
-          entering={FadeIn.delay(200).duration(1000)}
-          style={styles.backButtons}
+      {/* Back bottons */}
+      <Animated.View
+        entering={FadeIn.delay(200).duration(1000)}
+        style={styles.backButtons}
+      >
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={styles.button}
         >
-          <TouchableOpacity
-            onPress={() => navigation.goBack()}
-            style={styles.button}
+          <ChevronLeftIcon size={hp(3.5)} strokeWidth={4.5} color="grey" />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => setIsLiked(!isLiked)}
+        >
+          <HeartIcon
+            size={hp(3.5)}
+            strokeWidth={4.5}
+            color={isLiked ? "#F50B0B" : "grey"}
+          />
+        </TouchableOpacity>
+      </Animated.View>
+
+      {/* Recipe Details */}
+      {loading ? (
+        <Loading size="large" />
+      ) : (
+        <View style={styles.recipeDetails}>
+          <Text style={styles.recipeName}>{meals?.strMeal}</Text>
+          <Animated.View
+            entering={FadeInDown.duration(600).springify().damping(12)}
+            style={styles.typeWrapper}
           >
-            <ChevronLeftIcon size={hp(3.5)} strokeWidth={4.5} color="grey" />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => setIsLiked(!isLiked)}
+            <Text style={styles.recipeCategory}>{meals?.strCategory}</Text>
+            <Text style={styles.recipeArea}>{meals?.strArea}</Text>
+          </Animated.View>
+
+          {/* Misc */}
+          <Animated.View
+            entering={FadeInDown.delay(100)
+              .duration(600)
+              .springify()
+              .damping(11)}
+            style={styles.miscWrapper}
           >
-            <HeartIcon
-              size={hp(3.5)}
-              strokeWidth={4.5}
-              color={isLiked ? "#F50B0B" : "grey"}
-            />
-          </TouchableOpacity>
-        </Animated.View>
-
-        {/* Recipe Details */}
-        {loading ? (
-          <Loading size="large" />
-        ) : (
-          <View style={styles.recipeDetails}>
-            <Text style={styles.recipeName}>{meals?.strMeal}</Text>
-            <Animated.View
-              entering={FadeInDown.duration(600).springify().damping(12)}
-              style={styles.typeWrapper}
-            >
-              <Text style={styles.recipeCategory}>{meals?.strCategory}</Text>
-              <Text style={styles.recipeArea}>{meals?.strArea}</Text>
-            </Animated.View>
-
-            {/* Misc */}
-            <Animated.View
-              entering={FadeInDown.delay(100)
-                .duration(600)
-                .springify()
-                .damping(11)}
-              style={styles.miscWrapper}
-            >
-              {/* Time */}
-              <View style={styles.miscInside}>
-                <View style={styles.iconWrapper}>
-                  <ClockIcon size={hp(4)} strokeWidth={2.5} color="#525252" />
-                </View>
-                <View style={styles.timeWrapper}>
-                  <Text style={styles.minutes}>35</Text>
-                  <Text style={styles.minutesText}>Mins</Text>
-                </View>
+            {/* Time */}
+            <View style={styles.miscInside}>
+              <View style={styles.iconWrapper}>
+                <ClockIcon size={hp(4)} strokeWidth={2.5} color="#525252" />
               </View>
-
-              {/* UsersIcon */}
-              <View style={styles.miscInside}>
-                <View style={styles.iconWrapper}>
-                  <UsersIcon size={hp(4)} strokeWidth={2.5} color="#525252" />
-                </View>
-                <View style={styles.timeWrapper}>
-                  <Text style={styles.minutes}>03</Text>
-                  <Text style={styles.minutesText}>Serving</Text>
-                </View>
+              <View style={styles.timeWrapper}>
+                <Text style={styles.minutes}>35</Text>
+                <Text style={styles.minutesText}>Mins</Text>
               </View>
+            </View>
 
-              {/* FireIcon */}
-              <View style={styles.miscInside}>
-                <View style={styles.iconWrapper}>
-                  <FireIcon size={hp(4)} strokeWidth={2.5} color="#525252" />
-                </View>
-                <View style={styles.timeWrapper}>
-                  <Text style={styles.minutes}>105</Text>
-                  <Text style={styles.minutesText}>Cal</Text>
-                </View>
+            {/* UsersIcon */}
+            <View style={styles.miscInside}>
+              <View style={styles.iconWrapper}>
+                <UsersIcon size={hp(4)} strokeWidth={2.5} color="#525252" />
               </View>
-
-              {/* Square3Stack3DIcon */}
-              <View style={styles.miscInside}>
-                <View style={styles.iconWrapper}>
-                  <Square3Stack3DIcon
-                    size={hp(4)}
-                    strokeWidth={2.5}
-                    color="#525252"
-                  />
-                </View>
-                <View style={styles.timeWrapper}>
-                  <Text style={styles.minutes}>3</Text>
-                  <Text style={styles.minutesText}>Easy</Text>
-                </View>
+              <View style={styles.timeWrapper}>
+                <Text style={styles.minutes}>03</Text>
+                <Text style={styles.minutesText}>Serving</Text>
               </View>
-            </Animated.View>
+            </View>
 
-            {/* Ingredients */}
-            <Animated.View
-              entering={FadeInDown.delay(100)
-                .duration(600)
-                .springify()
-                .damping(12)}
-              style={styles.ingredientsContainer}
-            >
-              <Text style={styles.title}>Ingredients</Text>
-              <View style={styles.ingredientsList}>
-                {ingredientsIndexes(meals).map((index) => {
-                  return (
-                    <View key={index} style={styles.ingredientsListWrapper}>
-                      <View style={styles.dots} />
-                      <View style={styles.ingredientsLisDetails}>
-                        <Text style={styles.measure}>
-                          {meals[`strMeasure${index}`]}
-                        </Text>
-                        <Text style={styles.ingredient}>
-                          {meals[`strIngredient${index}`]}
-                        </Text>
-                      </View>
+            {/* FireIcon */}
+            <View style={styles.miscInside}>
+              <View style={styles.iconWrapper}>
+                <FireIcon size={hp(4)} strokeWidth={2.5} color="#525252" />
+              </View>
+              <View style={styles.timeWrapper}>
+                <Text style={styles.minutes}>105</Text>
+                <Text style={styles.minutesText}>Cal</Text>
+              </View>
+            </View>
+
+            {/* Square3Stack3DIcon */}
+            <View style={styles.miscInside}>
+              <View style={styles.iconWrapper}>
+                <Square3Stack3DIcon
+                  size={hp(4)}
+                  strokeWidth={2.5}
+                  color="#525252"
+                />
+              </View>
+              <View style={styles.timeWrapper}>
+                <Text style={styles.minutes}>3</Text>
+                <Text style={styles.minutesText}>Easy</Text>
+              </View>
+            </View>
+          </Animated.View>
+
+          {/* Ingredients */}
+          <Animated.View
+            entering={FadeInDown.delay(100)
+              .duration(600)
+              .springify()
+              .damping(12)}
+            style={styles.ingredientsContainer}
+          >
+            <Text style={styles.title}>Ingredients</Text>
+            <View style={styles.ingredientsList}>
+              {ingredientsIndexes(meals).map((index) => {
+                return (
+                  <View key={index} style={styles.ingredientsListWrapper}>
+                    <View style={styles.dots} />
+                    <View style={styles.ingredientsLisDetails}>
+                      <Text style={styles.measure}>
+                        {meals[`strMeasure${index}`]}
+                      </Text>
+                      <Text style={styles.ingredient}>
+                        {meals[`strIngredient${index}`]}
+                      </Text>
                     </View>
-                  );
-                })}
-              </View>
-            </Animated.View>
+                  </View>
+                );
+              })}
+            </View>
+          </Animated.View>
 
-            {/* Instructions */}
+          {/* Instructions */}
+          <Animated.View
+            entering={FadeInDown.delay(100)
+              .duration(600)
+              .springify()
+              .damping(12)}
+            style={styles.ingredientsContainer}
+          >
+            <Text style={styles.title}>Instructions</Text>
+            <Text style={styles.instructionsText}>
+              {meals?.strInstructions}
+            </Text>
+          </Animated.View>
+
+          {/* Video */}
+          {meals?.strYoutube && (
             <Animated.View
               entering={FadeInDown.delay(100)
                 .duration(600)
                 .springify()
                 .damping(12)}
-              style={styles.ingredientsContainer}
             >
-              <Text style={styles.title}>Instructions</Text>
-              <Text style={styles.instructionsText}>
-                {meals?.strInstructions}
-              </Text>
+              <Text style={styles.title}>Video</Text>
+              <View>
+                <YoutubeIframe
+                  height={hp(30)}
+                  width="100%"
+                  videoId={meals?.strYoutube.split("=")[1]}
+                />
+              </View>
             </Animated.View>
-
-            {/* Video */}
-            {meals?.strYoutube && (
-              <Animated.View
-                entering={FadeInDown.delay(100)
-                  .duration(600)
-                  .springify()
-                  .damping(12)}
-              >
-                <Text style={styles.title}>Video</Text>
-                <View>
-                  <YoutubeIframe
-                    height={hp(26)}
-                    width="100%"
-                    videoId={meals?.strYoutube.split("=")[1]}
-                  />
-                </View>
-              </Animated.View>
-            )}
-          </View>
-        )}
-      </ScrollView>
-    </SafeAreaView>
+          )}
+        </View>
+      )}
+    </ScrollView>
   );
 };
 
