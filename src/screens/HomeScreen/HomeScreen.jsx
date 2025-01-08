@@ -4,29 +4,34 @@ import {
   Text,
   ScrollView,
   Image,
-  StyleSheet,
   SafeAreaView,
   TextInput,
-  Platform,
   StatusBar,
   TouchableOpacity,
 } from "react-native";
 
+// Libraries
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
+import axios from "axios";
+
+// Icons
 import { BellIcon } from "react-native-heroicons/outline";
 import { MagnifyingGlassIcon } from "react-native-heroicons/outline";
-import Categories from "../components/Categorites";
 
-import axios from "axios";
-import Recipes from "../components/Recipes";
-import Loading from "../components/Loading";
+// Components
+import Categories from "../../components/Categorites";
+import Recipes from "../../components/Recipes";
+import Loading from "../../components/Loading";
+
+// Style
+import { styles } from "./HomeStyles";
 
 export default function HomeScreen() {
+  // States
   const [activeCategory, setActiveCategory] = useState("Beef");
-
   const [categories, setCategories] = useState([]);
   const [meals, setMeals] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -38,18 +43,7 @@ export default function HomeScreen() {
     getRecipes();
   }, []);
 
-  const handleChangeCategory = (category) => {
-    if (!category) {
-      console.error("Invalid category selected.");
-      return;
-    }
-    getRecipes(category);
-    setActiveCategory(category);
-    setSearchResults([]);
-    setSearchQuery("");
-    setMeals([]);
-  };
-
+  // Apis
   const getCategories = async () => {
     try {
       const response = await axios.get(
@@ -99,8 +93,21 @@ export default function HomeScreen() {
     }
   };
 
+  // Functions
   const handleSearchInputChange = (text) => {
     setSearchQuery(text);
+  };
+
+  const handleChangeCategory = (category) => {
+    if (!category) {
+      console.error("Invalid category selected.");
+      return;
+    }
+    getRecipes(category);
+    setActiveCategory(category);
+    setSearchResults([]);
+    setSearchQuery("");
+    setMeals([]);
   };
 
   return (
@@ -113,7 +120,7 @@ export default function HomeScreen() {
         {/* Avatar and Bell Icon */}
         <View style={styles.header}>
           <Image
-            source={require("../../assets/avatar.png")}
+            source={require("../../../assets/avatar.png")}
             style={styles.avatar}
           />
           <BellIcon size={hp(4)} color="gray" />
@@ -173,65 +180,3 @@ export default function HomeScreen() {
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
-  },
-  wrapper: {
-    marginBottom: 26,
-  },
-  scrollViewContent: {
-    paddingBottom: 50,
-    paddingTop: 14,
-    paddingHorizontal: 16,
-  },
-  header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 26,
-  },
-  avatar: {
-    height: hp(5),
-    width: hp(5),
-    borderRadius: hp(2.5),
-  },
-  greetingsContainer: {
-    marginBottom: 36,
-  },
-  greetingText: {
-    fontSize: hp(1.7),
-    color: "#6B7280",
-    marginBottom: 8,
-  },
-  punchlineText: {
-    fontSize: hp(3.8),
-    fontWeight: "600",
-    color: "#6B7280",
-  },
-  highlightText: {
-    color: "#F50B0B",
-  },
-  searchBar: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.05)",
-    borderRadius: 9999,
-    padding: 6,
-  },
-  searchInput: {
-    flex: 1,
-    fontSize: hp(1.7),
-    color: "black",
-    marginBottom: 1,
-    paddingLeft: 12,
-    letterSpacing: 0.5,
-  },
-  searchIconContainer: {
-    backgroundColor: "white",
-    borderRadius: 9999,
-    padding: 12,
-  },
-});

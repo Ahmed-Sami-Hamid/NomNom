@@ -1,6 +1,8 @@
-import { View, Text, Image, StyleSheet } from "react-native";
 import React, { useEffect } from "react";
+import { View, Text, Image, StyleSheet } from "react-native";
 import { StatusBar } from "expo-status-bar";
+
+// Libraries
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -11,6 +13,9 @@ import Animated, {
   withSpring,
 } from "react-native-reanimated";
 import { useNavigation } from "@react-navigation/native";
+
+// Styles
+import { styles } from "./WelcomeStyle";
 
 const WelcomeScreen = () => {
   const ring1padding = useSharedValue(0);
@@ -29,11 +34,11 @@ const WelcomeScreen = () => {
     ring1padding.value = 0;
     ring2padding.value = 0;
     setTimeout(
-      () => (ring1padding.value = withSpring(ring1padding.value + hp(5))),
+      () => (ring1padding.value = withSpring(ring1padding.value + hp(4))),
       100
     );
     setTimeout(
-      () => (ring2padding.value = withSpring(ring2padding.value + hp(5.5))),
+      () => (ring2padding.value = withSpring(ring2padding.value + hp(4.5))),
       300
     );
     setTimeout(() => navigation.navigate("Home"), 2500);
@@ -46,7 +51,7 @@ const WelcomeScreen = () => {
       <Animated.View style={[styles.outerRing, outerRingStyle]}>
         <Animated.View style={[styles.innerRing, innerRingStyle]}>
           <Image
-            source={require("../../assets/welcome.png")}
+            source={require("../../../assets/welcome.png")}
             style={styles.logo}
           />
         </Animated.View>
@@ -59,42 +64,5 @@ const WelcomeScreen = () => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#F50B0B", // Amber-500
-  },
-  outerRing: {
-    backgroundColor: "rgba(255, 255, 255, 0.2)", // White/20
-    borderRadius: 9999,
-  },
-  innerRing: {
-    backgroundColor: "rgba(255, 255, 255, 0.2)", // White/20
-    borderRadius: 9999,
-  },
-  logo: {
-    width: hp(20),
-    height: hp(20),
-  },
-  textContainer: {
-    alignItems: "center",
-    marginTop: 20,
-  },
-  title: {
-    fontWeight: "bold",
-    color: "white",
-    letterSpacing: 2,
-    fontSize: hp(6), // Corresponds to text-6xl
-  },
-  punchline: {
-    fontWeight: "500",
-    color: "white",
-    letterSpacing: 1.5,
-    fontSize: hp(2.2), // Corresponds to text-lg
-  },
-});
 
 export default WelcomeScreen;
