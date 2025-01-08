@@ -9,6 +9,7 @@ import {
   TextInput,
   Platform,
   StatusBar,
+  TouchableOpacity,
 } from "react-native";
 
 import {
@@ -21,12 +22,17 @@ import Categories from "../components/Categorites";
 
 import axios from "axios";
 import Recipes from "../components/Recipes";
+import Loading from "../components/Loading";
 
 export default function HomeScreen() {
   const [activeCategory, setActiveCategory] = useState("Beef");
 
   const [categories, setCategories] = useState([]);
   const [meals, setMeals] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
   useEffect(() => {
     getCategories();
     getRecipes();
@@ -39,6 +45,8 @@ export default function HomeScreen() {
     }
     getRecipes(category);
     setActiveCategory(category);
+    setSearchResults([]);
+    setSearchQuery("");
     setMeals([]);
   };
 
@@ -70,6 +78,29 @@ export default function HomeScreen() {
     } catch (err) {
       console.log("error: ", err.message);
     }
+  };
+
+  const getRecipesBySearch = async () => {
+    if (!searchQuery) {
+      return;
+    }
+    try {
+      setIsLoading(true);
+      const response = await axios.get(
+        `https://themealdb.com/api/json/v1/1/search.php?s=${searchQuery}`
+      );
+      if (response && response.data) {
+        setSearchResults(response.data.meals);
+      }
+    } catch (err) {
+      console.log("error: ", err.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleSearchInputChange = (text) => {
+    setSearchQuery(text);
   };
 
   return (
@@ -104,11 +135,16 @@ export default function HomeScreen() {
           <TextInput
             placeholder="Search any recipe"
             placeholderTextColor="gray"
+            value={searchQuery}
+            onChangeText={handleSearchInputChange}
             style={styles.searchInput}
           />
-          <View style={styles.searchIconContainer}>
+          <TouchableOpacity
+            style={styles.searchIconContainer}
+            onPress={getRecipesBySearch}
+          >
             <MagnifyingGlassIcon size={hp(2.5)} strokeWidth={3} color="gray" />
-          </View>
+          </TouchableOpacity>
         </View>
 
         {/* Categories */}
@@ -124,7 +160,14 @@ export default function HomeScreen() {
 
         {/* Recipes */}
         <View>
-          <Recipes meals={meals} categories={categories} />
+          {isLoading ? (
+            <Loading size="large" />
+          ) : (
+            <Recipes
+              meals={searchResults.length > 0 ? searchResults : meals}
+              categories={categories}
+            />
+          )}
         </View>
       </ScrollView>
     </SafeAreaView>
